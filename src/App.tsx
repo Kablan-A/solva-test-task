@@ -1,54 +1,24 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
-import { Routes, Route, Link, Outlet } from "react-router-dom";
-import { AuthProvider } from "./auth/auth-provider";
-import Login from "./pages/login";
+import { Routes, Route } from "react-router-dom";
 import { RequireAuth } from "./auth/components/require-auth";
-import { AuthStatus } from "./auth/components/auth-status";
+import SignInPage from "./pages/sign-in";
+import Layout from "./pages/layout";
+import { paths } from "./paths";
+import NotFound from "./pages/not-found";
+
 export default function App() {
   return (
-    <AuthProvider>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<PublicPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/protected"
-            element={
-              <RequireAuth>
-                <ProtectedPage />
-              </RequireAuth>
-            }
-          />
-        </Route>
-      </Routes>
-    </AuthProvider>
+    <Routes>
+      <Route
+        path={paths.home}
+        element={
+          <RequireAuth>
+            <Layout />
+          </RequireAuth>
+        }
+      />
+      <Route path={paths.auth.signIn} element={<SignInPage />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
-}
-
-function Layout() {
-  return (
-    <div>
-      <AuthStatus />
-
-      <ul>
-        <li>
-          <Link to="/">Public Page</Link>
-        </li>
-        <li>
-          <Link to="/protected">Protected Page</Link>
-        </li>
-      </ul>
-
-      <Outlet />
-    </div>
-  );
-}
-
-function PublicPage() {
-  return <h3>Public</h3>;
-}
-
-function ProtectedPage() {
-  return <h3>Protected</h3>;
 }

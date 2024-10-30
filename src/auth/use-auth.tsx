@@ -1,6 +1,5 @@
-import * as React from "react";
-import { AuthContext } from "./auth-provider";
+import { useAppSelector } from "../state/hooks";
 
 export function useAuth() {
-  return React.useContext(AuthContext);
+  return useAppSelector((state) => state.auth);
 }
