@@ -1,9 +1,10 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../use-auth";
 import { paths } from "../../paths";
+import React from "react";
 
 export interface RequireAuthProps {
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 export function RequireAuth({ children }: RequireAuthProps) {
   let auth = useAuth();

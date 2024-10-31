@@ -1,14 +1,22 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Routes, Route } from "react-router-dom";
-import { RequireAuth } from "./auth/components/require-auth";
 import SignInPage from "./pages/sign-in";
-import Layout from "./pages/layout";
 import { paths } from "./paths";
+import { RequireAuth } from "./auth/components/require-auth";
+import Layout from "./layout/layout";
+import HomePage from "./pages/home";
+import PeoplePage from "./pages/people";
+import PlanetsPage from "./pages/planets";
+import StarshipsPage from "./pages/starships";
 import NotFound from "./pages/not-found";
 
 export default function App() {
   return (
     <Routes>
+      {/* Public route */}
+      <Route path={paths.auth.signIn} element={<SignInPage />} />
+
+      {/* Protected routes */}
       <Route
         path={paths.home}
         element={
@@ -16,8 +24,14 @@ export default function App() {
             <Layout />
           </RequireAuth>
         }
-      />
-      <Route path={paths.auth.signIn} element={<SignInPage />} />
+      >
+        <Route index element={<HomePage />} />
+        <Route path={paths.people} element={<PeoplePage />} />
+        <Route path={paths.planets} element={<PlanetsPage />} />
+        <Route path={paths.starships} element={<StarshipsPage />} />
+      </Route>
+
+      {/* 404 */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

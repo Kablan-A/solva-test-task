@@ -8,17 +8,15 @@ export function AuthStatus() {
 
   if (auth.isSignedIn) {
     return (
-      <div className="container-fluid sticky-top p-2 bg-body-tertiary">
-        <p className="lead m-0 d-flex align-items-center justify-content-between gap-3">
-          Welcome, {auth.username}!{" "}
-          <button
-            className="btn btn-secondary"
-            onClick={() => dispatch(signOut())}
-          >
-            Sign out
-          </button>
-        </p>
-      </div>
+      <p className="lead m-0 d-flex align-items-center justify-content-between gap-3">
+        Welcome, {auth.username}!{" "}
+        <button
+          className="btn btn-secondary"
+          onClick={() => dispatch(signOut())}
+        >
+          Sign out
+        </button>
+      </p>
     );
   }
 }

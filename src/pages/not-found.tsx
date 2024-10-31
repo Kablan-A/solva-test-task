@@ -3,7 +3,7 @@ import { paths } from "../paths";
 
 export default function NotFound() {
   return (
-    <main className="d-flex align-items-center justify-content-center min-vh-100">
+    <section className="d-flex align-items-center justify-content-center min-vh-100">
       <div className="container" style={{ maxWidth: "600px" }}>
         <h3 className="display-4 fw-normal mt-3">404: Page not found</h3>
         <p className="lead text-secondary">
@@ -14,6 +14,6 @@ export default function NotFound() {
           <i className="bi bi-arrow-left"></i> Go home
         </Link>
       </div>
-    </main>
+    </section>
   );
 }
