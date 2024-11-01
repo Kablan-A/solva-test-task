@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
-import SignInForm from "../auth/components/sign-in-form";
-import { useAuth } from "../auth/use-auth";
+import SignInForm from "../auth/sign-in-form";
 import { paths } from "../paths";
+import { useAuth } from "../util/hooks/use-auth";
 
 export default function SignInPage() {
   const auth = useAuth();

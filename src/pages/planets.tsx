@@ -3,8 +3,12 @@ import Loader from "../components/loader";
 import { Table } from "../components/table";
 import type { TPlanet } from "../types/planet";
 import { TableHeader } from "../types/table-header";
+import { Pagination } from "../components/pagination/pagination";
+import { usePlanets } from "../util/hooks/use-planets";
+import { useAppDispatch } from "../state/hooks";
+import { getPlanetsAsync, updateCurrPage } from "../state/planets-slice";
 
-type TPlanetsReq = {
+export type TPlanetsReq = {
   count: number;
   next: string | null;
   previous: string | null;
@@ -18,23 +22,30 @@ const planetHeaders: TableHeader<TPlanet>[] = [
 ];
 
 export default function PlanetsPage() {
-  const [planets, setPlanets] = React.useState<TPlanetsReq>();
+  const planets = usePlanets();
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    const getPlanets = async () => {
-      const response = await fetch("https://swapi.dev/api/planets");
-      const json = await response.json();
-      setPlanets(json);
-    };
-    getPlanets();
-  }, []);
+    dispatch(getPlanetsAsync(planets.currPage));
+  }, [planets.currPage]);
+
+  const handlePageChange = (pageNum: number): void => {
+    dispatch(updateCurrPage(pageNum));
+  };
 
   return (
     <div className="container-fluid">
       <h3>Planets</h3>
 
-      {planets ? (
-        <Table headers={planetHeaders} data={planets.results} />
+      {planets.results[0] ? (
+        <>
+          <Table headers={planetHeaders} data={planets.results} />
+          <Pagination
+            currPage={planets.currPage}
+            totalPages={planets.totalPages}
+            onPageChange={handlePageChange}
+          />
+        </>
       ) : (
         <Loader />
       )}

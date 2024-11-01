@@ -4,16 +4,16 @@ export type TPerson = {
   gender: string;
   mass: string;
   skin_color: string;
-  species: string[];
   birth_year: string;
   url: string;
   // Unused
-  created: string;
-  edited: string;
-  eye_color: string;
-  films: string[];
-  hair_color: string;
-  homeworld: string;
-  starships: string[];
-  vehicles: string[];
+  species?: string[];
+  created?: string;
+  edited?: string;
+  eye_color?: string;
+  films?: string[];
+  hair_color?: string;
+  homeworld?: string;
+  starships?: string[];
+  vehicles?: string[];
 };

@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../use-auth";
-import { paths } from "../../paths";
+import { paths } from "../paths";
 import React from "react";
+import { useAuth } from "../util/hooks/use-auth";
 
 export interface RequireAuthProps {
   children: React.ReactNode;

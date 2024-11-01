@@ -1,6 +1,6 @@
-import { useAuth } from "../use-auth";
-import { signOut } from "../../state/authSlice";
-import { useAppDispatch } from "../../state/hooks";
+import { signOut } from "../state/authSlice";
+import { useAppDispatch } from "../state/hooks";
+import { useAuth } from "../util/hooks/use-auth";
 
 export function AuthStatus() {
   let auth = useAuth();

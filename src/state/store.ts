@@ -1,10 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
+import peopleSlice from "./people/people-slice";
+import personSlice from "./people/person-slice";
+import planetsSlice from "./planets-slice";
+import starshipsSlice from "./starships-slice";
 
 export const store = configureStore({
-  // reducre - functions that change the store state
+  // reducer - functions that change the store state
   reducer: {
     auth: authReducer,
+    people: peopleSlice,
+    person: personSlice,
+    planets: planetsSlice,
+    starships: starshipsSlice,
   },
 });
 

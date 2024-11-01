@@ -13,9 +13,8 @@ export function Table<T extends { url: string; name: string }>({
   headers,
   data,
 }: TableProps<T>): React.JSX.Element {
-  console.log(data);
   return (
-    <div className="table-responsive">
+    <div className="table-responsive mb-3">
       <table className="table table-sm table-hover align-middle">
         <thead>
           <tr>

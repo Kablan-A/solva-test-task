@@ -1,15 +1,15 @@
 import * as React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../use-auth";
-import { paths } from "../../paths";
-import { useAppDispatch } from "../../state/hooks";
+import { useAuth } from "../util/hooks/use-auth";
+import { paths } from "../paths";
+import { useAppDispatch } from "../state/hooks";
 import {
   signIn,
   updateUsername,
   updatePassword,
   updateRemember,
-} from "../../state/authSlice";
-import type { TUser } from "../../types/user";
+} from "../state/authSlice";
+import type { TUser } from "../types/user";
 
 export default function SignInForm(): React.JSX.Element {
   const auth = useAuth();

@@ -1,4 +1,4 @@
-import { AuthStatus } from "../auth/components/auth-status";
+import { AuthStatus } from "../auth/auth-status";
 import { paths } from "../paths";
 import { NavLinkProps, NavLink } from "./nav-link";
 
@@ -14,6 +14,7 @@ export function Nav() {
     <nav className="navbar navbar-expand-md bg-body-tertiary">
       <div className="container-fluid">
         <div
+          style={{ maxWidth: "60%" }}
           className="offcanvas offcanvas-start"
           tabIndex={-1}
           id="offcanvasNavbar"

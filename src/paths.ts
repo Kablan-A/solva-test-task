@@ -6,6 +6,7 @@ export const paths = {
   people: "/people",
   planets: "/planets",
   starships: "/starships",
+  notFound: "*",
 };
 
 export type TPaths = keyof typeof paths;

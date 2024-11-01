@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export interface PageCardProps {
   img: {
@@ -10,8 +10,6 @@ export interface PageCardProps {
 }
 
 export default function PageCard({ img, title, linkTo }: PageCardProps) {
-  let location = useLocation();
-  const isActive = location.pathname === linkTo;
   const { src, alt } = img;
   return (
     <div className="card mb-4 box-shadow">
@@ -30,12 +28,7 @@ export default function PageCard({ img, title, linkTo }: PageCardProps) {
       <div className="card-body">
         <div className="d-flex justify-content-between align-items-center">
           <p className="lead m-0">{title}</p>
-          <Link
-            to={linkTo}
-            className={`btn btn-sm btn-outline ${
-              isActive ? "btn-success text-light" : "btn-secondary"
-            }`}
-          >
+          <Link to={linkTo} className="btn btn-sm btn-success">
             View
           </Link>
         </div>

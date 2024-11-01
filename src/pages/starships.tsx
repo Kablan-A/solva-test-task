@@ -1,8 +1,12 @@
 import * as React from "react";
 import Loader from "../components/loader";
 import { Table } from "../components/table";
+import { Pagination } from "../components/pagination/pagination";
 import type { TStarship } from "../types/starship";
 import type { TableHeader } from "../types/table-header";
+import { useStarships } from "../util/hooks/use-starships";
+import { useAppDispatch } from "../state/hooks";
+import { getStarshipsAsync, updateCurrPage } from "../state/starships-slice";
 
 const starshipHeaders: TableHeader<TStarship>[] = [
   { label: "Name", key: "name" },
@@ -13,7 +17,7 @@ const starshipHeaders: TableHeader<TStarship>[] = [
   { label: "Crew", key: "crew" },
 ];
 
-type TStarshipsReq = {
+export type TStarshipsReq = {
   count: number;
   next: string | null;
   previous: string | null;
@@ -21,23 +25,30 @@ type TStarshipsReq = {
 };
 
 export default function PlanetsPage() {
-  const [starships, setStarships] = React.useState<TStarshipsReq>();
+  const starships = useStarships();
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    const getStarships = async () => {
-      const response = await fetch("https://swapi.dev/api/starships");
-      const json = await response.json();
-      setStarships(json);
-    };
-    getStarships();
-  }, []);
+    dispatch(getStarshipsAsync(starships.currPage));
+  }, [starships.currPage]);
+
+  const handlePageChange = (pageNum: number): void => {
+    dispatch(updateCurrPage(pageNum));
+  };
 
   return (
     <div className="container-fluid">
       <h3>Starships</h3>
 
-      {starships ? (
-        <Table headers={starshipHeaders} data={starships.results} />
+      {starships.results[0] ? (
+        <>
+          <Table headers={starshipHeaders} data={starships.results} />
+          <Pagination
+            currPage={starships.currPage}
+            totalPages={starships.totalPages}
+            onPageChange={handlePageChange}
+          />
+        </>
       ) : (
         <Loader />
       )}
