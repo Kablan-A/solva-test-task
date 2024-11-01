@@ -1,4 +1,4 @@
-import { peopleHeaders } from "../pages/people";
+import { peopleHeaders } from "../pages/people/people";
 import type { TPerson } from "../types/person";
 
 export interface PersonInfoProps {

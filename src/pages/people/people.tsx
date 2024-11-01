@@ -1,13 +1,13 @@
 import * as React from "react";
-import Loader from "../components/loader";
-import { Table } from "../components/table";
-import { Pagination } from "../components/pagination/pagination";
-import { usePeople } from "../util/hooks/use-people";
-import { useAppDispatch } from "../state/hooks";
-import { getPeopleAsync } from "../state/people/people-slice";
-import { updateCurrPage } from "../state/people/people-slice";
-import type { TPerson } from "../types/person";
-import type { TableHeader } from "../types/table-header";
+import Loader from "../../components/loader";
+import { Table } from "../../components/table";
+import { Pagination } from "../../components/pagination/pagination";
+import { usePeople } from "../../util/hooks/use-people";
+import { useAppDispatch } from "../../state/hooks";
+import { getPeopleAsync } from "../../state/people-slice";
+import { updateCurrPage } from "../../state/people-slice";
+import type { TPerson } from "../../types/person";
+import type { TableHeader } from "../../types/table-header";
 
 export type TPeopleReq = {
   count: number;
@@ -40,7 +40,9 @@ export default function PeoplePage() {
     <div className="container-fluid">
       <h3>People</h3>
 
-      {people.results[0] ? (
+      {people.isPending ? (
+        <Loader />
+      ) : (
         <>
           <Table headers={peopleHeaders} data={people.results} />
           <Pagination
@@ -49,8 +51,6 @@ export default function PeoplePage() {
             onPageChange={handlePageChange}
           />
         </>
-      ) : (
-        <Loader />
       )}
     </div>
   );

@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import { peopleHeaders } from "../pages/people";
-import { PersonState } from "../state/people/person-slice";
+import { peopleHeaders } from "../pages/people/people";
+import { PersonState } from "../state/people-slice";
 import type { TPerson } from "../types/person";
 
 export interface PersonFormProps {
