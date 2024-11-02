@@ -17,3 +17,10 @@ export type TPerson = {
   starships?: string[];
   vehicles?: string[];
 };
+
+export type TPeopleReq = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: TPerson[];
+};

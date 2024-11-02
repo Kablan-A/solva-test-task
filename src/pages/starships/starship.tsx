@@ -1,50 +1,52 @@
 import * as React from "react";
+
 import { paths } from "../../paths";
 import { Navigate } from "react-router-dom";
 import { useAppDispatch } from "../../state/hooks";
-import { personSchema } from "../../api/schemas";
+import { starshipSchema } from "../../api/schemas";
 import Loader from "../../components/loader";
-import { peopleHeaders } from "../../api/headers";
-import { getPersonAsync, updatePerson } from "../../state/people-slice";
-import { usePeople } from "../../util/hooks/use-people";
+
+import { getStarshipAsync, updateStarship } from "../../state/starships-slice";
+import { starshipHeaders } from "../../api/headers";
+import { useStarships } from "../../util/hooks/use-starships";
 import { useValidatedId } from "../../util/hooks/use-validated-id";
 import { EntityInfo } from "../../components/entity/entity-info";
 import { FormCard } from "../../components/form-card";
 import { EntityForm } from "../../components/entity/entity-form";
-import type { TPerson } from "../../types/people";
+import type { TStarship } from "../../types/starships";
 
-export default function Person() {
-  const { count, currPerson: person } = usePeople();
-  const personId = useValidatedId({ maxId: count });
+export default function Starship() {
+  const { count, currStarship: starship } = useStarships();
+  const starshipId = useValidatedId({ maxId: count });
 
-  if (!personId) {
-    return <Navigate to={paths.people} replace />;
+  if (!starshipId) {
+    return <Navigate to={paths.starships} replace />;
   }
 
   const dispatch = useAppDispatch();
   React.useEffect(() => {
-    dispatch(getPersonAsync(personId as number));
-  }, [personId]);
+    dispatch(getStarshipAsync(starshipId as number));
+  }, [starshipId]);
 
-  const onSubmit = (data: TPerson) => {
-    dispatch(updatePerson(data));
+  const onSubmit = (data: TStarship) => {
+    dispatch(updateStarship(data));
   };
 
   return (
     <div className="container-fluid">
-      {person.isPending ? (
+      {starship.isPending ? (
         <Loader />
       ) : (
         <div className="row g-4">
           <div className="col-md-6">
-            <EntityInfo headers={peopleHeaders} entity={person} />
+            <EntityInfo headers={starshipHeaders} entity={starship} />
           </div>
           <div className="col-md-6">
             <FormCard title="Update Form">
               <EntityForm
-                headers={peopleHeaders}
+                headers={starshipHeaders}
                 onSubmit={onSubmit}
-                validSchema={personSchema}
+                validSchema={starshipSchema}
               />
             </FormCard>
           </div>

@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./authSlice";
+import authReducer from "./auth-slice";
 import peopleSlice from "./people-slice";
 import planetsSlice from "./planets-slice";
 import starshipsSlice from "./starships-slice";

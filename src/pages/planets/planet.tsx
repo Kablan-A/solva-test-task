@@ -1,50 +1,52 @@
 import * as React from "react";
+
 import { paths } from "../../paths";
 import { Navigate } from "react-router-dom";
 import { useAppDispatch } from "../../state/hooks";
-import { personSchema } from "../../api/schemas";
+import { planetSchema } from "../../api/schemas";
 import Loader from "../../components/loader";
-import { peopleHeaders } from "../../api/headers";
-import { getPersonAsync, updatePerson } from "../../state/people-slice";
-import { usePeople } from "../../util/hooks/use-people";
+
+import { planetHeaders } from "../../api/headers";
+import { getPlanetAsync, updatePlanet } from "../../state/planets-slice";
+import { usePlanets } from "../../util/hooks/use-planets";
 import { useValidatedId } from "../../util/hooks/use-validated-id";
 import { EntityInfo } from "../../components/entity/entity-info";
 import { FormCard } from "../../components/form-card";
 import { EntityForm } from "../../components/entity/entity-form";
-import type { TPerson } from "../../types/people";
+import type { TPlanet } from "../../types/planets";
 
-export default function Person() {
-  const { count, currPerson: person } = usePeople();
-  const personId = useValidatedId({ maxId: count });
+export default function Planet() {
+  const { count, currPlanet: planet } = usePlanets();
+  const planetId = useValidatedId({ maxId: count });
 
-  if (!personId) {
-    return <Navigate to={paths.people} replace />;
+  if (!planetId) {
+    return <Navigate to={paths.planets} replace />;
   }
 
   const dispatch = useAppDispatch();
   React.useEffect(() => {
-    dispatch(getPersonAsync(personId as number));
-  }, [personId]);
+    dispatch(getPlanetAsync(planetId as number));
+  }, [planetId]);
 
-  const onSubmit = (data: TPerson) => {
-    dispatch(updatePerson(data));
+  const onSubmit = (data: TPlanet) => {
+    dispatch(updatePlanet(data));
   };
 
   return (
     <div className="container-fluid">
-      {person.isPending ? (
+      {planet.isPending ? (
         <Loader />
       ) : (
         <div className="row g-4">
           <div className="col-md-6">
-            <EntityInfo headers={peopleHeaders} entity={person} />
+            <EntityInfo headers={planetHeaders} entity={planet} />
           </div>
           <div className="col-md-6">
             <FormCard title="Update Form">
               <EntityForm
-                headers={peopleHeaders}
+                headers={planetHeaders}
                 onSubmit={onSubmit}
-                validSchema={personSchema}
+                validSchema={planetSchema}
               />
             </FormCard>
           </div>

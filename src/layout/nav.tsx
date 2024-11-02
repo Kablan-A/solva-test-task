@@ -2,7 +2,7 @@ import { AuthStatus } from "../auth/auth-status";
 import { paths } from "../paths";
 import { NavLinkProps, NavLink } from "./nav-link";
 
-const navLinks: { label: string; linkTo: string }[] = [
+export const navLinks: { label: string; linkTo: string }[] = [
   { label: "Home", linkTo: paths.home },
   { label: "People", linkTo: paths.people },
   { label: "Planets", linkTo: paths.planets },
@@ -11,7 +11,7 @@ const navLinks: { label: string; linkTo: string }[] = [
 
 export function Nav() {
   return (
-    <nav className="navbar navbar-expand-md bg-body-tertiary">
+    <nav className="navbar navbar-expand-md">
       <div className="container-fluid">
         <div
           style={{ maxWidth: "60%" }}

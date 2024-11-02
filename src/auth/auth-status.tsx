@@ -1,4 +1,4 @@
-import { signOut } from "../state/authSlice";
+import { signOut } from "../state/auth-slice";
 import { useAppDispatch } from "../state/hooks";
 import { useAuth } from "../util/hooks/use-auth";
 
