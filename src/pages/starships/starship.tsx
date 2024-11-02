@@ -16,8 +16,8 @@ import { EntityForm } from "../../components/entity/entity-form";
 import type { TStarship } from "../../types/starships";
 
 export default function Starship() {
-  const { count, currStarship: starship } = useStarships();
-  const starshipId = useValidatedId({ maxId: count });
+  const { currStarship: starship } = useStarships();
+  const starshipId = useValidatedId();
 
   if (!starshipId) {
     return <Navigate to={paths.starships} replace />;
@@ -46,6 +46,7 @@ export default function Starship() {
               <EntityForm
                 headers={starshipHeaders}
                 onSubmit={onSubmit}
+                // @ts-ignore
                 validSchema={starshipSchema}
               />
             </FormCard>

@@ -20,6 +20,7 @@ export function EntityForm<T extends FieldValues>({
     handleSubmit,
     formState: { errors },
   } = useForm<T>({
+    // @ts-ignore
     resolver: yupResolver(validSchema),
   });
 

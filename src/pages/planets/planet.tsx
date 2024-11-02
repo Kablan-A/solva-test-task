@@ -16,8 +16,8 @@ import { EntityForm } from "../../components/entity/entity-form";
 import type { TPlanet } from "../../types/planets";
 
 export default function Planet() {
-  const { count, currPlanet: planet } = usePlanets();
-  const planetId = useValidatedId({ maxId: count });
+  const { currPlanet: planet } = usePlanets();
+  const planetId = useValidatedId();
 
   if (!planetId) {
     return <Navigate to={paths.planets} replace />;
@@ -46,6 +46,7 @@ export default function Planet() {
               <EntityForm
                 headers={planetHeaders}
                 onSubmit={onSubmit}
+                // @ts-ignore
                 validSchema={planetSchema}
               />
             </FormCard>

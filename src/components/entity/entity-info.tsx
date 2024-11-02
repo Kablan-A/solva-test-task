@@ -1,4 +1,4 @@
-import type { TableHeader } from "../types/table-header";
+import type { TableHeader } from "../../types/table-header";
 
 export interface EntityInfoProps<T> {
   headers: TableHeader<T>[];

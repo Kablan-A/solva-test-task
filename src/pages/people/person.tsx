@@ -14,8 +14,8 @@ import { EntityForm } from "../../components/entity/entity-form";
 import type { TPerson } from "../../types/people";
 
 export default function Person() {
-  const { count, currPerson: person } = usePeople();
-  const personId = useValidatedId({ maxId: count });
+  const { currPerson: person } = usePeople();
+  const personId = useValidatedId();
 
   if (!personId) {
     return <Navigate to={paths.people} replace />;
@@ -44,6 +44,7 @@ export default function Person() {
               <EntityForm
                 headers={peopleHeaders}
                 onSubmit={onSubmit}
+                // @ts-ignore
                 validSchema={personSchema}
               />
             </FormCard>
