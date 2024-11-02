@@ -1,58 +1,125 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { TStarshipsReq } from "../pages/starships";
+import { apiPaths } from "../api/api-paths";
+import type { TStarshipsReq } from "../types/starships";
+import type { TStarship } from "../types/starships";
+
+export interface StarshipState extends TStarship {
+  id: number;
+  isPending: boolean;
+}
+
+const initialStarship: StarshipState = {
+  id: 1,
+  name: "",
+  model: "",
+  manufacturer: "",
+  cost_in_credits: "",
+  length: "",
+  max_atmosphering_speed: "",
+  crew: "",
+  starship_class: "",
+  url: "",
+  isPending: true,
+};
 
 interface StarshipsState extends TStarshipsReq {
   currPage: number;
   totalPages: number;
+  currStarship: StarshipState;
+  isPending: boolean;
 }
-
-const initialState: StarshipsState = {
+const initialStarships: StarshipsState = {
   count: 0,
   next: "",
   previous: "",
   results: [],
   currPage: 1,
   totalPages: 0,
+  currStarship: initialStarship,
+  isPending: false,
 };
 
 export const starshipsSlice = createSlice({
   name: "starships",
-  initialState,
+  initialState: initialStarships,
   reducers: {
     updateCurrPage: (state, action: PayloadAction<number>) => {
       state.currPage = action.payload;
     },
-    updateTotalPages: (state, action: PayloadAction<number>) => {
-      state.totalPages = action.payload;
+    updateStarship: (state, action: PayloadAction<TStarship>) => {
+      const {
+        model,
+        manufacturer,
+        cost_in_credits,
+        length,
+        max_atmosphering_speed,
+        crew,
+        starship_class,
+      } = action.payload;
+      state.currStarship.model = model;
+      state.currStarship.manufacturer = manufacturer;
+      state.currStarship.cost_in_credits = cost_in_credits;
+      state.currStarship.length = length;
+      state.currStarship.max_atmosphering_speed = max_atmosphering_speed;
+      state.currStarship.crew = crew;
+      state.currStarship.starship_class = starship_class;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getStarshipsAsync.pending, (_) => {
-        console.log("getStarshipsAsync.pending");
+      // Get starships data
+      .addCase(getStarshipsAsync.pending, (state) => {
+        state.isPending = true;
       })
       .addCase(getStarshipsAsync.fulfilled, (state, action) => {
-        state.results = action.payload.results;
-        state.count = action.payload.count;
-        state.next = action.payload.next;
-        state.previous = action.payload.previous;
-        state.totalPages = Math.ceil(action.payload.count / 10);
+        const { results, count, next, previous } = action.payload;
+        state.results = results;
+        state.count = count;
+        state.next = next;
+        state.previous = previous;
+        state.totalPages = Math.ceil(count / 10);
+        state.isPending = false;
+      })
+      .addCase(getStarshipsAsync.rejected, (state, action) => {
+        console.error("Error fetching starships data:", action.error.message);
+        state.isPending = false;
+      })
+      // Get a starship data
+      .addCase(getStarshipAsync.pending, (state) => {
+        state.currStarship = initialStarship;
+      })
+      .addCase(getStarshipAsync.fulfilled, (state, action) => {
+        state.currStarship = action.payload;
+      })
+      .addCase(getStarshipAsync.rejected, (state, action) => {
+        console.error("Error fetching starship data:", action.error.message);
+        state.isPending = false;
       });
   },
 });
 
 export const getStarshipsAsync = createAsyncThunk(
   "starships/getStarshipsAsync",
-  async (currPage: number = 1): Promise<TStarshipsReq> => {
-    try {
-      const url = `https://swapi.dev/api/starships/?page=${currPage}`;
-      const response = await fetch(url);
-      return (await response.json()) as TStarshipsReq;
-    } catch (error) {
-      return initialState;
+  async (currPage: number): Promise<TStarshipsReq> => {
+    const response = await fetch(apiPaths.starships(currPage));
+    if (!response.ok) {
+      throw new Error("Failed to fetch starships data");
     }
+    return (await response.json()) as TStarshipsReq;
   }
 );
 
-export const { updateCurrPage } = starshipsSlice.actions;
+export const getStarshipAsync = createAsyncThunk(
+  "starships/getStarshipAsync",
+  async (id: number): Promise<StarshipState> => {
+    const response = await fetch(apiPaths.starshipById(id));
+    const json = (await response.json()) as TStarship;
+    if (!response.ok) {
+      throw new Error("Failed to fetch starship data");
+    }
+    return { ...json, id } as StarshipState;
+  }
+);
+
+export const { updateCurrPage, updateStarship } = starshipsSlice.actions;
 export default starshipsSlice.reducer;

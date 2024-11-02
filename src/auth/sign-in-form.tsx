@@ -1,14 +1,12 @@
 import * as React from "react";
+import { userSchema } from "../api/schemas";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../util/hooks/use-auth";
 import { paths } from "../paths";
 import { useAppDispatch } from "../state/hooks";
-import {
-  signIn,
-  updateUsername,
-  updatePassword,
-  updateRemember,
-} from "../state/authSlice";
+import { signIn } from "../state/auth-slice";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 import type { TUser } from "../types/user";
 
 export default function SignInForm(): React.JSX.Element {
@@ -20,16 +18,18 @@ export default function SignInForm(): React.JSX.Element {
 
   let from = location.state?.from?.pathname || paths.home;
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const newSignIn: TUser = {
-      username: auth.username as string,
-      password: auth.password as string,
-      remember: auth.remember,
-    };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TUser>({
+    defaultValues: auth,
+    resolver: yupResolver(userSchema),
+  });
 
+  const onSubmit = (data: TUser) => {
     // Update the user sign in and redirect to the protected page
-    dispatch(signIn(newSignIn));
+    dispatch(signIn(data));
     // Send user back to the page they tried to visit when they were
     // redirected to the login page. Use { replace: true } so we don't create
     // another entry in the history stack for the login page.  This means that
@@ -40,7 +40,7 @@ export default function SignInForm(): React.JSX.Element {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="form-outline mb-4">
         <label className="form-label" htmlFor="username">
           Username
@@ -50,9 +50,11 @@ export default function SignInForm(): React.JSX.Element {
           id="username"
           className="form-control"
           placeholder="admin"
-          onChange={(event) => dispatch(updateUsername(event.target.value))}
-          required
+          {...register("username")}
         />
+        {errors && (
+          <span className="text-danger">{errors.username?.message}</span>
+        )}
       </div>
 
       <div className="form-outline mb-2">
@@ -64,9 +66,11 @@ export default function SignInForm(): React.JSX.Element {
           id="password"
           className="form-control"
           placeholder="123456"
-          onChange={(event) => dispatch(updatePassword(event.target.value))}
-          required
+          {...register("password")}
         />
+        {errors && (
+          <span className="text-danger">{errors.password?.message}</span>
+        )}
       </div>
 
       <div className="form-check d-flex mb-4">
@@ -74,8 +78,7 @@ export default function SignInForm(): React.JSX.Element {
           className="form-check-input me-2"
           type="checkbox"
           id="rememberMe"
-          onChange={(event) => dispatch(updateRemember(event.target.checked))}
-          checked={auth.remember}
+          {...register("remember")}
         />
         <label className="form-check-label" htmlFor="rememberMe">
           Remember me
