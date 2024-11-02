@@ -2,11 +2,27 @@ import * as React from "react";
 import Loader from "../../components/loader";
 import { Table } from "../../components/table";
 import { Pagination } from "../../components/pagination/pagination";
-import { peopleHeaders } from "../../api/headers";
 import { usePeople } from "../../util/hooks/use-people";
 import { useAppDispatch } from "../../state/hooks";
 import { getPeopleAsync } from "../../state/people-slice";
 import { updateCurrPage } from "../../state/people-slice";
+import type { TPerson } from "../../types/person";
+import type { TableHeader } from "../../types/table-header";
+
+export type TPeopleReq = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: TPerson[];
+};
+
+export const peopleHeaders: TableHeader<TPerson>[] = [
+  { label: "Height", key: "height" },
+  { label: "Mass", key: "mass" },
+  { label: "Skin Color", key: "skin_color" },
+  { label: "Birth Year", key: "birth_year" },
+  { label: "Gender", key: "gender" },
+];
 
 export default function PeoplePage() {
   const people = usePeople();

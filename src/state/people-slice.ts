@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { apiPaths } from "../api/api-paths";
-import type { TPeopleReq } from "../types/people";
-import type { TPerson } from "../types/people";
+import type { TPeopleReq } from "../pages/people/people";
+import type { TPerson } from "../types/person";
 
 export interface PersonState extends TPerson {
   id: number;
@@ -45,14 +45,12 @@ export const peopleSlice = createSlice({
       state.currPage = action.payload;
     },
     updatePerson: (state, action: PayloadAction<TPerson>) => {
-      const { height, mass, hair_color, skin_color, birth_year, gender } =
-        action.payload;
-      state.currPerson.height = height;
-      state.currPerson.mass = mass;
-      state.currPerson.hair_color = hair_color;
-      state.currPerson.skin_color = skin_color;
-      state.currPerson.birth_year = birth_year;
-      state.currPerson.gender = gender;
+      state.currPerson.height = action.payload.height;
+      state.currPerson.mass = action.payload.mass;
+      state.currPerson.hair_color = action.payload.hair_color;
+      state.currPerson.skin_color = action.payload.skin_color;
+      state.currPerson.birth_year = action.payload.birth_year;
+      state.currPerson.gender = action.payload.gender;
     },
   },
   extraReducers: (builder) => {
@@ -90,7 +88,7 @@ export const peopleSlice = createSlice({
 
 export const getPeopleAsync = createAsyncThunk(
   "people/getPeopleAsync",
-  async (currPage: number): Promise<TPeopleReq> => {
+  async (currPage: number = 1): Promise<TPeopleReq> => {
     const response = await fetch(apiPaths.people(currPage));
     if (!response.ok) {
       throw new Error("Failed to fetch people data");
@@ -101,7 +99,7 @@ export const getPeopleAsync = createAsyncThunk(
 
 export const getPersonAsync = createAsyncThunk(
   "people/getPersonAsync",
-  async (id: number): Promise<PersonState> => {
+  async (id: number = 1): Promise<PersonState> => {
     const response = await fetch(apiPaths.personById(id));
     const json = (await response.json()) as TPerson;
     if (!response.ok) {

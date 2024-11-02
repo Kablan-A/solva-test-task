@@ -1,5 +1,4 @@
 import { Navigate } from "react-router-dom";
-import { FormCard } from "../components/form-card";
 import SignInForm from "../auth/sign-in-form";
 import { paths } from "../paths";
 import { useAuth } from "../util/hooks/use-auth";
@@ -27,9 +26,19 @@ export default function SignInPage() {
               </p>
             </div>
             <div className="col-lg-6">
-              <FormCard title="Sign in">
-                <SignInForm />
-              </FormCard>
+              <div
+                className="card"
+                style={{
+                  boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+                }}
+              >
+                <div className="card-header bg-transparent">
+                  <h2 className="display-6 fw-light">Sign in</h2>
+                </div>
+                <div className="card-body py-4 px-md-5">
+                  <SignInForm />
+                </div>
+              </div>
             </div>
           </div>
         </div>

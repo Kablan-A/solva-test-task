@@ -33,7 +33,7 @@ export default function HomePage() {
 
   return (
     <div className="container-fluid">
-      <h1 className="">Star Wars API</h1>
+      <h1 className="jumbotron-heading">Star Wars API</h1>
       <p className="lead text-muted">
         The Star Wars API, or "swapi" (Swah-pee) is the world's first quantified
         and programmatically-accessible data source for all the data from the

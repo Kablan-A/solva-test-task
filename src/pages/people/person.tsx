@@ -1,17 +1,14 @@
 import * as React from "react";
 import { paths } from "../../paths";
-import { Navigate } from "react-router-dom";
 import { useAppDispatch } from "../../state/hooks";
-import { personSchema } from "../../api/schemas";
-import Loader from "../../components/loader";
-import { peopleHeaders } from "../../api/headers";
 import { getPersonAsync, updatePerson } from "../../state/people-slice";
+import { PersonInfo } from "../../components/person-info";
+import { PersonForm } from "../../components/person-form";
 import { usePeople } from "../../util/hooks/use-people";
 import { useValidatedId } from "../../util/hooks/use-validated-id";
-import { EntityInfo } from "../../components/entity/entity-info";
-import { FormCard } from "../../components/form-card";
-import { EntityForm } from "../../components/entity/entity-form";
-import type { TPerson } from "../../types/people";
+import Loader from "../../components/loader";
+import type { TPerson } from "../../types/person";
+import { Navigate } from "react-router-dom";
 
 export default function Person() {
   const { count, currPerson: person } = usePeople();
@@ -37,16 +34,10 @@ export default function Person() {
       ) : (
         <div className="row g-4">
           <div className="col-md-6">
-            <EntityInfo headers={peopleHeaders} entity={person} />
+            <PersonInfo person={person} />
           </div>
           <div className="col-md-6">
-            <FormCard title="Update Form">
-              <EntityForm
-                headers={peopleHeaders}
-                onSubmit={onSubmit}
-                validSchema={personSchema}
-              />
-            </FormCard>
+            <PersonForm onSubmit={onSubmit} />
           </div>
         </div>
       )}

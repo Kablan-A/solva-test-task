@@ -1,14 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { TUser } from "../types/user";
 
-interface AuthState extends TUser {
+interface AuthState {
   isSignedIn: boolean;
+  username: string | null;
+  password: string | null;
+  remember: boolean;
 }
 
 const initialState: AuthState = {
   isSignedIn: false,
-  username: "",
-  password: "",
+  username: null,
+  password: null,
   remember: true,
 };
 
@@ -38,12 +41,27 @@ export const authSlice = createSlice({
     },
     signOut: (state) => {
       state.isSignedIn = false;
-      state.username = "";
-      state.password = "";
+      state.username = null;
+      state.password = null;
       localStorage.removeItem("authState");
+    },
+    updateUsername: (state, action: PayloadAction<string>) => {
+      state.username = action.payload;
+    },
+    updatePassword: (state, action: PayloadAction<string>) => {
+      state.password = action.payload;
+    },
+    updateRemember: (state, action: PayloadAction<boolean>) => {
+      state.remember = action.payload;
     },
   },
 });
 
-export const { signIn, signOut } = authSlice.actions;
+export const {
+  signIn,
+  signOut,
+  updateUsername,
+  updatePassword,
+  updateRemember,
+} = authSlice.actions;
 export default authSlice.reducer;

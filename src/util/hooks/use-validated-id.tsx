@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 
 interface UseValidatedIdOptions {
-  maxId?: number; // Maximum valid id, like the count of people/planets/starships.
+  maxId: number; // Maximum valid id, like the count of people/planets/starships.
 }
 
 export function useValidatedId({
@@ -10,7 +10,7 @@ export function useValidatedId({
   const { id } = useParams();
   const parsedId = parseInt(id as string, 10);
 
-  if (isNaN(parsedId) || parsedId <= 0) {
+  if (isNaN(parsedId) || parsedId <= 0 || parsedId > maxId) {
     return null;
   }
 
